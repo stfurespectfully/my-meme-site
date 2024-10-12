@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login to Memes</title>
+    <title>Random Modern Memes</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,77 +12,45 @@
             margin: 0;
             padding: 0;
         }
-        .login-container {
-            margin-top: 100px;
+        .meme-container {
+            margin-top: 50px;
         }
-        .input-field {
-            padding: 10px;
-            margin: 10px;
-            width: 200px;
-        }
-        .login-button {
+        .meme-button {
             padding: 10px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
             cursor: pointer;
+            margin: 20px;
         }
-        .login-button:hover {
+        .meme-button:hover {
             background-color: #45a049;
-        }
-        #meme-container {
-            display: none;
-            margin-top: 50px;
         }
         #meme {
             width: 400px;
-            height: 400px;
+            height: auto;
             object-fit: contain;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
 
-<div class="login-container">
-    <h1>Login to See Memes</h1>
-    <input type="text" id="username" placeholder="Username" class="input-field"><br>
-    <input type="password" id="password" placeholder="Password" class="input-field"><br>
-    <button class="login-button" onclick="login()">Login</button>
-    <p id="error-message" style="color: red;"></p>
-</div>
+<h1>Random Modern Memes</h1>
+<p>Click the button below to get a random meme!</p>
+<button class="meme-button" onclick="getRandomMeme()">Get Random Meme</button>
 
-<div id="meme-container">
-    <h2>Random Meme</h2>
-    <img id="meme" alt="Random Meme">
-    <button class="login-button" onclick="showRandomMeme()">Show Another Meme</button>
+<div class="meme-container">
+    <img id="meme" alt="Random Meme will appear here">
 </div>
 
 <script>
-    function login() {
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        const errorMessage = document.getElementById('error-message');
-
-        if (username === 'LOL' && password === 'negr') {
-            errorMessage.textContent = '';
-            document.querySelector('.login-container').style.display = 'none';
-            document.getElementById('meme-container').style.display = 'block';
-            showRandomMeme();
-        } else {
-            errorMessage.textContent = 'Incorrect Username or Password';
-        }
-    }
-
-    function showRandomMeme() {
-        const memeImages = [
-            'https://i.imgflip.com/30b1gx.jpg',
-            'https://i.imgflip.com/1ihzfe.jpg',
-            'https://i.imgflip.com/4t0m5.jpg',
-            'https://i.imgflip.com/26am.jpg',
-            'https://i.imgflip.com/1bij.jpg'
-        ];
-        const randomMeme = memeImages[Math.floor(Math.random() * memeImages.length)];
-        document.getElementById('meme').src = randomMeme;
+    async function getRandomMeme() {
+        const response = await fetch('https://meme-api.com/gimme');
+        const data = await response.json();
+        const memeUrl = data.url;
+        const memeImage = document.getElementById('meme');
+        memeImage.src = memeUrl;
     }
 </script>
 
